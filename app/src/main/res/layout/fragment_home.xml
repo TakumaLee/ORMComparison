@@ -1,0 +1,153 @@
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal"
+    android:fitsSystemWindows="true"
+    tools:context="org.unlimitales.mmm.activity.MHomeActivity">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_ormlite"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Ormlite"/>
+
+        <EditText
+            android:id="@+id/editText_ormlite_input_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="請輸入數量"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/button_ormlite_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="輸入"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="耗費時間："/>
+
+        <TextView
+            android:id="@+id/textView_ormlite_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"/>
+
+        <Button
+            android:id="@+id/button_ormlite_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除"/>
+
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_greendao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="GreenDao"/>
+
+        <EditText
+            android:id="@+id/editText_greendao_input_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="請輸入數量"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/button_greendao_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="輸入"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="耗費時間："/>
+
+        <TextView
+            android:id="@+id/textView_greendao_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"/>
+
+        <Button
+            android:id="@+id/button_greendao_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除"/>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textView_realm"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="realm"/>
+
+        <EditText
+            android:id="@+id/editText_realm_input_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="請輸入數量"
+            android:inputType="number"/>
+
+        <Button
+            android:id="@+id/button_realm_insert"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="輸入"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="耗費時間："/>
+
+        <TextView
+            android:id="@+id/textView_realm_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Time"/>
+
+        <Button
+            android:id="@+id/button_realm_clear"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="清除"/>
+
+    </LinearLayout>
+
+
+
+    <!-- your content layout -->
+    <!--<android.support.v4.view.ViewPager-->
+        <!--android:id="@+id/viewpager"-->
+        <!--android:layout_width="match_parent"-->
+        <!--android:layout_height="match_parent"-->
+        <!--app:layout_behavior="@string/appbar_scrolling_view_behavior"/>-->
+
+</LinearLayout>
