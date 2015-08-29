@@ -1,1 +1,1 @@
-include ':app', ':MaterialWidget', ':SimpleFacebook', ':daogenerator'
+include ':app', ':daogenerator'

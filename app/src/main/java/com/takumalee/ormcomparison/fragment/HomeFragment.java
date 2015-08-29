@@ -3,7 +3,6 @@ package com.takumalee.ormcomparison.fragment;
 import android.animation.Animator;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
@@ -14,28 +13,22 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 
-import com.google.android.gms.analytics.HitBuilders;
 import com.j256.ormlite.dao.Dao;
 import com.takumalee.ormcomparison.R;
-import com.takumalee.ormcomparison.adapter.TabFragmentAdapter;
 import com.takumalee.ormcomparison.database.greendao.DBHelper;
 import com.takumalee.ormcomparison.database.greendao.dao.CharacterDao;
 import com.takumalee.ormcomparison.database.ormlite.dao.DAOFactory;
 import com.takumalee.ormcomparison.database.ormlite.model.Character;
 import com.takumalee.ormcomparison.database.realm.model.RealmCharacter;
-import com.takumalee.ormcomparison.fragment.base.ActivityBaseFragment;
 
 import java.sql.SQLException;
 
 import io.realm.Realm;
 
-public class HomeFragment extends ActivityBaseFragment {
+public class HomeFragment extends Fragment {
     private static final String TAG = HomeFragment.class.getSimpleName();
 
     private View view;
-    private TabLayout tabLayout;
-    private ViewPager viewPager;
-    private TabFragmentAdapter adapter;
 
     private EditText editTextOrmlite;
     private Button ormliteInsertBtn;
@@ -64,8 +57,6 @@ public class HomeFragment extends ActivityBaseFragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        tracker.setScreenName("首頁");
-        tracker.send(new HitBuilders.ScreenViewBuilder().build());
         Log.v(TAG, "onCreate()");
     }
 
@@ -129,7 +120,7 @@ public class HomeFragment extends ActivityBaseFragment {
                 }
                 int greenCount = Integer.parseInt(editTextGreenDao.getText().toString());
                 long greenTime = System.currentTimeMillis();
-                CharacterDao characterDao = DBHelper.getInstance(activity).getCharacterDao();
+                CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
                 SQLiteDatabase db = characterDao.getDatabase();
                 db.beginTransaction();
                 for (int i = 0; i < greenCount; i++) {
@@ -145,7 +136,7 @@ public class HomeFragment extends ActivityBaseFragment {
         greenClearBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CharacterDao characterDao = DBHelper.getInstance(activity).getCharacterDao();
+                CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
                 characterDao.getDatabase().beginTransaction();
                 characterDao.deleteAll();
                 characterDao.getDatabase().setTransactionSuccessful();
@@ -184,61 +175,21 @@ public class HomeFragment extends ActivityBaseFragment {
             }
         });
 
-//        tabLayout = (TabLayout) inflater.inflate(R.layout.tablayout, container, false).findViewById(R.id.tabs);
-//        tabLayout.setTabTextColors(Color.argb(255 * 54 / 100,
-//                Color.red(Color.WHITE),
-//                Color.green(Color.WHITE),
-//                Color.blue(Color.WHITE)), Color.WHITE);
-//
-//        viewPager = (ViewPager) view.findViewById(R.id.viewpager);
-//        setupViewPager(viewPager);
-//        UIConfig.setupTabSelectorColor(tabLayout, Color.WHITE);
-//        tabLayout.setupWithViewPager(viewPager);
-
         return view;
     }
 
-    @Override
-    public boolean onBackPressed() {
-        return true;
-    }
-
-    private void setupViewPager(ViewPager viewPager) {
-        adapter = new TabFragmentAdapter(getChildFragmentManager());
-        adapter.addFragment(new Fragment(), "出境");
-        adapter.addFragment(new Fragment(), "入境");
-        viewPager.setAdapter(adapter);
-    }
 
 
     @Override
     public void onResume() {
         super.onResume();
         Log.v(TAG, "onResume()");
-//        ((ORMHomeActivity)activity).addCustomView(tabLayout);
-//        historyFragment.setActionBarFunctionListener(actionBarFunctionListener);
-//        historyDiagramFragment.setActionBarFunctionListener(actionBarFunctionListener);
     }
 
     @Override
     public void onStart() {
         super.onStart();
         Log.v(TAG, "onStart()");
-    }
-
-    @Override
-    protected void initActionBar() {
-
-    }
-
-    @Override
-    public void onAnimationStart() {
-
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-
     }
 
 }
