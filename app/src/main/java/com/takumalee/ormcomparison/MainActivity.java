@@ -6,6 +6,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 
 import com.takumalee.ormcomparison.fragment.HomeFragment;
+import com.takumalee.ormcomparison.fragment.InsertFragment;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -14,7 +15,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         if (null == savedInstanceState) {
-            getSupportFragmentManager().beginTransaction().add(R.id.relativelayout_main, HomeFragment.newInstance()).commit();
+            getSupportFragmentManager().beginTransaction().add(R.id.relativelayout_main, new InsertFragment()).commit();
         }
     }
 
