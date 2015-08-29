@@ -20,12 +20,6 @@
             android:layout_height="wrap_content"
             android:text="Ormlite"/>
 
-        <EditText
-            android:id="@+id/editText_ormlite_input_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="請輸入數量"
-            android:inputType="number"/>
 
         <Button
             android:id="@+id/button_ormlite_insert"
@@ -43,6 +37,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="Time"/>
+        <EditText
+            android:id="@+id/editText_ormlite_input_count"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:hint="請輸入數量"
+            android:inputType="number"/>
 
     </LinearLayout>
 
@@ -58,12 +58,6 @@
             android:layout_height="wrap_content"
             android:text="GreenDao"/>
 
-        <EditText
-            android:id="@+id/editText_greendao_input_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="請輸入數量"
-            android:inputType="number"/>
 
         <Button
             android:id="@+id/button_greendao_insert"
@@ -95,13 +89,6 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="realm"/>
-
-        <EditText
-            android:id="@+id/editText_realm_input_count"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:hint="請輸入數量"
-            android:inputType="number"/>
 
         <Button
             android:id="@+id/button_realm_insert"

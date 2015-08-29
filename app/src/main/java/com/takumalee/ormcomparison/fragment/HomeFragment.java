@@ -34,11 +34,9 @@ public class HomeFragment extends Fragment {
     private Button ormliteInsertBtn;
     private TextView textViewOrmlite;
 
-    private EditText editTextGreenDao;
     private Button buttonGreenDao;
     private TextView textViewGreenDao;
 
-    private EditText editTextRealm;
     private Button buttonRealm;
     private TextView textViewRealm;
 
@@ -67,11 +65,9 @@ public class HomeFragment extends Fragment {
         ormliteInsertBtn = (Button) view.findViewById(R.id.button_ormlite_insert);
         textViewOrmlite = (TextView) view.findViewById(R.id.textView_ormlite_time);
 
-        editTextGreenDao = (EditText) view.findViewById(R.id.editText_greendao_input_count);
         buttonGreenDao = (Button) view.findViewById(R.id.button_greendao_insert);
         textViewGreenDao = (TextView) view.findViewById(R.id.textView_greendao_time);
 
-        editTextRealm = (EditText) view.findViewById(R.id.editText_realm_input_count);
         buttonRealm = (Button) view.findViewById(R.id.button_realm_insert);
         textViewRealm = (TextView) view.findViewById(R.id.textView_realm_time);
 
@@ -104,11 +100,11 @@ public class HomeFragment extends Fragment {
         buttonGreenDao.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editTextGreenDao.getText().toString().isEmpty()) {
+                if (editTextOrmlite.getText().toString().isEmpty()) {
                     return;
                 }
                 truncateGreenDao();
-                int greenCount = Integer.parseInt(editTextGreenDao.getText().toString());
+                int greenCount = Integer.parseInt(editTextOrmlite.getText().toString());
                 long greenTime = System.currentTimeMillis();
                 CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
                 SQLiteDatabase db = characterDao.getDatabase();
@@ -127,11 +123,11 @@ public class HomeFragment extends Fragment {
         buttonRealm.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (editTextRealm.getText().toString().isEmpty()) {
+                if (editTextOrmlite.getText().toString().isEmpty()) {
                     return;
                 }
                 truncateRealm();
-                int realmCount = Integer.parseInt(editTextRealm.getText().toString());
+                int realmCount = Integer.parseInt(editTextOrmlite.getText().toString());
                 long realmTime = System.currentTimeMillis();
 
                 Realm realm = Realm.getDefaultInstance();
