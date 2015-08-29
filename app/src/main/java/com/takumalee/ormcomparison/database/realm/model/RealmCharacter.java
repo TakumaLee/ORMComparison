@@ -8,7 +8,7 @@ import io.realm.annotations.PrimaryKey;
  */
 public class RealmCharacter extends RealmObject {
 
-    @PrimaryKey
+//    @PrimaryKey
     private int id;
     private String careers;
     private String attributes;

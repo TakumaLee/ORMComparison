@@ -33,17 +33,14 @@ public class HomeFragment extends Fragment {
     private EditText editTextOrmlite;
     private Button ormliteInsertBtn;
     private TextView textViewOrmlite;
-    private Button ormliteClearBtn;
 
     private EditText editTextGreenDao;
     private Button buttonGreenDao;
     private TextView textViewGreenDao;
-    private Button greenClearBtn;
 
     private EditText editTextRealm;
     private Button buttonRealm;
     private TextView textViewRealm;
-    private Button realmClearBtn;
 
     public static HomeFragment newInstance() {
         HomeFragment fragment = new HomeFragment();
@@ -69,17 +66,14 @@ public class HomeFragment extends Fragment {
         editTextOrmlite = (EditText) view.findViewById(R.id.editText_ormlite_input_count);
         ormliteInsertBtn = (Button) view.findViewById(R.id.button_ormlite_insert);
         textViewOrmlite = (TextView) view.findViewById(R.id.textView_ormlite_time);
-        ormliteClearBtn = (Button) view.findViewById(R.id.button_ormlite_clear);
 
         editTextGreenDao = (EditText) view.findViewById(R.id.editText_greendao_input_count);
         buttonGreenDao = (Button) view.findViewById(R.id.button_greendao_insert);
         textViewGreenDao = (TextView) view.findViewById(R.id.textView_greendao_time);
-        greenClearBtn = (Button) view.findViewById(R.id.button_greendao_clear);
 
         editTextRealm = (EditText) view.findViewById(R.id.editText_realm_input_count);
         buttonRealm = (Button) view.findViewById(R.id.button_realm_insert);
         textViewRealm = (TextView) view.findViewById(R.id.textView_realm_time);
-        realmClearBtn = (Button) view.findViewById(R.id.button_realm_clear);
 
         ormliteInsertBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -87,6 +81,7 @@ public class HomeFragment extends Fragment {
                 if (editTextOrmlite.getText().toString().isEmpty()) {
                     return;
                 }
+                truncateOrmlite();
                 Dao<Character, Integer> dao = null;
                 long ormliteTime = System.currentTimeMillis();
                 try {
@@ -95,7 +90,7 @@ public class HomeFragment extends Fragment {
                     DAOFactory.getInstance().beginTransaction();
                     for (int i = 0; i < ormCount; i++) {
                         Character characterOrmlite = new Character();
-                        dao.createIfNotExists(characterOrmlite);
+                        dao.create(characterOrmlite);
                     }
                 } catch (SQLException e) {
                     e.printStackTrace();
@@ -105,12 +100,6 @@ public class HomeFragment extends Fragment {
                 textViewOrmlite.setText(String.valueOf(ormliteElapsedTime) + "ms");
             }
         });
-        ormliteClearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                DAOFactory.getInstance().getDbHelper().eraseAllData();
-            }
-        });
 
         buttonGreenDao.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,29 +107,20 @@ public class HomeFragment extends Fragment {
                 if (editTextGreenDao.getText().toString().isEmpty()) {
                     return;
                 }
+                truncateGreenDao();
                 int greenCount = Integer.parseInt(editTextGreenDao.getText().toString());
                 long greenTime = System.currentTimeMillis();
                 CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
                 SQLiteDatabase db = characterDao.getDatabase();
                 db.beginTransaction();
                 for (int i = 0; i < greenCount; i++) {
-                    com.takumalee.ormcomparison.database.greendao.dao.Character greenCharacter = new com.takumalee.ormcomparison.database.greendao.dao.Character((long) i, "C", "S");
+                    com.takumalee.ormcomparison.database.greendao.dao.Character greenCharacter = new com.takumalee.ormcomparison.database.greendao.dao.Character(null, "C", "S");
                     characterDao.insert(greenCharacter);
                 }
                 db.setTransactionSuccessful();
                 db.endTransaction();
                 long greenElapsedTime = System.currentTimeMillis() - greenTime;
                 textViewGreenDao.setText(String.valueOf(greenElapsedTime) + "ms");
-            }
-        });
-        greenClearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
-                characterDao.getDatabase().beginTransaction();
-                characterDao.deleteAll();
-                characterDao.getDatabase().setTransactionSuccessful();
-                characterDao.getDatabase().endTransaction();
             }
         });
 
@@ -150,35 +130,45 @@ public class HomeFragment extends Fragment {
                 if (editTextRealm.getText().toString().isEmpty()) {
                     return;
                 }
+                truncateRealm();
                 int realmCount = Integer.parseInt(editTextRealm.getText().toString());
                 long realmTime = System.currentTimeMillis();
-                Realm.getDefaultInstance().beginTransaction();
+
+                Realm realm = Realm.getDefaultInstance();
+                realm.beginTransaction();
                 for (int i = 0; i < realmCount; i++) {
-                    RealmCharacter realmCharacter = new RealmCharacter();
-                    realmCharacter.setId(i);
+                    RealmCharacter realmCharacter = realm.createObject(RealmCharacter.class);
+//                    realmCharacter.setId(i);
                     realmCharacter.setAttributes(String.valueOf(i));
                     realmCharacter.setCareers(String.valueOf(i));
-                    Realm.getDefaultInstance().copyToRealmOrUpdate(realmCharacter);
                 }
-                Realm.getDefaultInstance().commitTransaction();
+                realm.commitTransaction();
                 long realmElapsedTime = System.currentTimeMillis() - realmTime;
                 textViewRealm.setText(String.valueOf(realmElapsedTime) + "ms");
 
-            }
-        });
-        realmClearBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Realm.getDefaultInstance().beginTransaction();
-                Realm.getDefaultInstance().clear(RealmCharacter.class);
-                Realm.getDefaultInstance().commitTransaction();
             }
         });
 
         return view;
     }
 
+    private void truncateOrmlite() {
+        DAOFactory.getInstance().getDbHelper().eraseAllData();
+    }
 
+    private void truncateGreenDao() {
+        CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
+        characterDao.getDatabase().beginTransaction();
+        characterDao.deleteAll();
+        characterDao.getDatabase().setTransactionSuccessful();
+        characterDao.getDatabase().endTransaction();
+    }
+
+    private void truncateRealm() {
+        Realm.getDefaultInstance().beginTransaction();
+        Realm.getDefaultInstance().clear(RealmCharacter.class);
+        Realm.getDefaultInstance().commitTransaction();
+    }
 
     @Override
     public void onResume() {
