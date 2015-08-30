@@ -30,6 +30,9 @@ import io.realm.Realm;
  */
 public class InsertFragment extends Fragment {
 
+    String CAREER = "C";
+    String ATTRIBUTES = "S";
+
     private EditText editTextOrmlite;
     private Button ormliteInsertBtn;
     private TextView textViewOrmlite;
@@ -69,6 +72,8 @@ public class InsertFragment extends Fragment {
                     DAOFactory.getInstance().beginTransaction();
                     for (int i = 0; i < ormCount; i++) {
                         Character characterOrmlite = new Character();
+                        characterOrmlite.setCareers(CAREER + i);
+                        characterOrmlite.setAttributes(ATTRIBUTES + i);
                         dao.create(characterOrmlite);
                     }
                 } catch (SQLException e) {
@@ -93,7 +98,7 @@ public class InsertFragment extends Fragment {
                 SQLiteDatabase db = characterDao.getDatabase();
                 db.beginTransaction();
                 for (int i = 0; i < greenCount; i++) {
-                    com.takumalee.ormcomparison.database.greendao.dao.Character greenCharacter = new com.takumalee.ormcomparison.database.greendao.dao.Character(null, "C", "S");
+                    com.takumalee.ormcomparison.database.greendao.dao.Character greenCharacter = new com.takumalee.ormcomparison.database.greendao.dao.Character(null, CAREER + i, ATTRIBUTES + i);
                     characterDao.insert(greenCharacter);
                 }
                 db.setTransactionSuccessful();
@@ -118,8 +123,8 @@ public class InsertFragment extends Fragment {
                 for (int i = 0; i < realmCount; i++) {
                     RealmCharacter realmCharacter = realm.createObject(RealmCharacter.class);
 //                    realmCharacter.setId(i);
-                    realmCharacter.setAttributes(String.valueOf(i));
-                    realmCharacter.setCareers(String.valueOf(i));
+                    realmCharacter.setAttributes(ATTRIBUTES +i);
+                    realmCharacter.setCareers(CAREER+i);
                 }
                 realm.commitTransaction();
                 long realmElapsedTime = System.currentTimeMillis() - realmTime;
