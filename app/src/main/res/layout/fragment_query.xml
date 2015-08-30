@@ -1,0 +1,112 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <EditText
+        android:id="@+id/editText_query"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:hint="請輸入id或搜尋名稱"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/button_query_for_all_ormlite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryForAll"/>
+
+            <Button
+                android:id="@+id/button_query_by_id_ormlite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryById"/>
+
+            <Button
+                android:id="@+id/button_query_by_name_ormlite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryByName"/>
+
+            <TextView
+                android:id="@+id/textView_Result_Ormlite"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Result"/>
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/button_query_for_all_greendao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryForAll"/>
+
+            <Button
+                android:id="@+id/button_query_by_id_greendao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryById"/>
+
+            <Button
+                android:id="@+id/button_query_by_name_greendao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryByName"/>
+
+            <TextView
+                android:id="@+id/textView_Result_Greendao"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Result"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:orientation="vertical">
+            <Button
+                android:id="@+id/button_query_for_all_realm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryForAll"/>
+
+            <Button
+                android:id="@+id/button_query_by_id_realm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryById"/>
+
+            <Button
+                android:id="@+id/button_query_by_name_realm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="QueryByName"/>
+
+            <TextView
+                android:id="@+id/textView_Result_Realm"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Result"/>
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
