@@ -4,6 +4,7 @@ import android.animation.Animator;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,7 +19,6 @@ import com.takumalee.ormcomparison.database.ormlite.dao.DAOFactory;
 import com.takumalee.ormcomparison.database.ormlite.model.*;
 import com.takumalee.ormcomparison.database.ormlite.model.Character;
 import com.takumalee.ormcomparison.database.realm.model.RealmCharacter;
-import com.takumalee.ormcomparison.fragment.base.ActivityBaseFragment;
 
 import java.sql.SQLException;
 import java.util.List;
@@ -28,7 +28,7 @@ import io.realm.Realm;
 /**
  * Created by TakumaLee on 15/8/30.
  */
-public class QueryFragment extends ActivityBaseFragment {
+public class QueryFragment extends Fragment {
 
     private View view;
 
@@ -79,8 +79,8 @@ public class QueryFragment extends ActivityBaseFragment {
             @Override
             public void onClick(View v) {
                 long greenTime = System.currentTimeMillis();
-                CharacterDao characterDao = DBHelper.getInstance(activity).getCharacterDao();
-                List<com.takumalee.ormcomparison.database.greendao.dao.Character> characterList = characterDao.queryBuilder().list();
+                CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
+                List<com.takumalee.ormcomparison.database.greendao.dao.Character> characterList = characterDao.queryBuilder().build().list();
                 long greenElapsedTime = System.currentTimeMillis() - greenTime;
                 textViewGreenDao.setText("Query數量: " + characterList.size() + " \n耗費時間: " + String.valueOf(greenElapsedTime) + "ms");
             }
@@ -98,18 +98,4 @@ public class QueryFragment extends ActivityBaseFragment {
         });
     }
 
-    @Override
-    protected void initActionBar() {
-
-    }
-
-    @Override
-    public void onAnimationStart() {
-
-    }
-
-    @Override
-    public void onAnimationEnd(Animator animation) {
-
-    }
 }
