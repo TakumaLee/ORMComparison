@@ -9,9 +9,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import com.j256.ormlite.dao.Dao;
+import com.j256.ormlite.stmt.PreparedQuery;
+import com.j256.ormlite.stmt.QueryBuilder;
 import com.takumalee.ormcomparison.R;
 import com.takumalee.ormcomparison.database.greendao.DBHelper;
 import com.takumalee.ormcomparison.database.greendao.dao.CharacterDao;
@@ -32,9 +35,15 @@ public class QueryFragment extends Fragment {
 
     private View view;
 
+    private EditText editTextInput;
+
     private Button queryForAllOrmliteBtn;
     private Button queryForAllGreenDaoBtn;
     private Button queryForAllRealmBtn;
+
+    private Button queryByNameOrmliteBtn;
+    private Button queryByNameGreenDaoBtn;
+    private Button queryByNameRealmBtn;
 
     private TextView textViewOrmlite;
     private TextView textViewGreenDao;
@@ -50,9 +59,16 @@ public class QueryFragment extends Fragment {
     }
 
     private void initView() {
+        editTextInput = (EditText) view.findViewById(R.id.editText_query);
+
         queryForAllOrmliteBtn = (Button) view.findViewById(R.id.button_query_for_all_ormlite);
         queryForAllGreenDaoBtn = (Button) view.findViewById(R.id.button_query_for_all_greendao);
         queryForAllRealmBtn = (Button) view.findViewById(R.id.button_query_for_all_realm);
+
+        queryByNameOrmliteBtn = (Button) view.findViewById(R.id.button_query_by_name_ormlite);
+        queryByNameGreenDaoBtn = (Button) view.findViewById(R.id.button_query_by_name_greendao);
+        queryByNameRealmBtn = (Button) view.findViewById(R.id.button_query_by_name_realm);
+
         textViewOrmlite = (TextView) view.findViewById(R.id.textView_Result_Ormlite);
         textViewGreenDao = (TextView) view.findViewById(R.id.textView_Result_Greendao);
         textViewRealm = (TextView) view.findViewById(R.id.textView_Result_Realm);
@@ -92,6 +108,63 @@ public class QueryFragment extends Fragment {
                 long greenTime = System.currentTimeMillis();
                 Realm realm = Realm.getDefaultInstance();
                 List<RealmCharacter> realmCharacterList = realm.where(RealmCharacter.class).findAll();
+                long greenElapsedTime = System.currentTimeMillis() - greenTime;
+                textViewRealm.setText("Query數量: " + realmCharacterList.size() + " \n耗費時間: " + String.valueOf(greenElapsedTime) + "ms");
+            }
+        });
+
+        queryByNameOrmliteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextInput.getText().toString().isEmpty()) {
+                    return;
+                }
+                long greenTime = System.currentTimeMillis();
+                List<Character> characterList = null;
+                try {
+                    Dao dao = DAOFactory.getInstance().getDbHelper().getDao(Character.class);
+
+                    QueryBuilder<Character, Integer> queryBuilder = dao.queryBuilder();
+                    queryBuilder.where().like("careers", "%" + editTextInput.getText().toString() + "%");
+                    PreparedQuery<Character> characterPreparedQuery = queryBuilder.prepare();
+                    characterList = dao.query(characterPreparedQuery);
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+                long greenElapsedTime = System.currentTimeMillis() - greenTime;
+                textViewOrmlite.setText("Query數量: " + characterList.size() + " \n耗費時間: " + String.valueOf(greenElapsedTime) + "ms");
+            }
+        });
+
+        queryByNameGreenDaoBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextInput.getText().toString().isEmpty()) {
+                    return;
+                }
+                long greenTime = System.currentTimeMillis();
+                CharacterDao characterDao = DBHelper.getInstance(getActivity()).getCharacterDao();
+                List<com.takumalee.ormcomparison.database.greendao.dao.Character> characterList =
+                        characterDao.queryBuilder()
+                                .where(CharacterDao.Properties.Careers.like("%" + editTextInput.getText().toString() + "%"))
+                                .list();
+
+                long greenElapsedTime = System.currentTimeMillis() - greenTime;
+                textViewGreenDao.setText("Query數量: " + characterList.size() + " \n耗費時間: " + String.valueOf(greenElapsedTime) + "ms");
+            }
+        });
+
+        queryByNameRealmBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (editTextInput.getText().toString().isEmpty()) {
+                    return;
+                }
+                long greenTime = System.currentTimeMillis();
+                Realm realm = Realm.getDefaultInstance();
+                List<RealmCharacter> realmCharacterList = realm.where(RealmCharacter.class)
+                        .contains("careers", editTextInput.getText().toString())
+                        .findAll();
                 long greenElapsedTime = System.currentTimeMillis() - greenTime;
                 textViewRealm.setText("Query數量: " + realmCharacterList.size() + " \n耗費時間: " + String.valueOf(greenElapsedTime) + "ms");
             }
